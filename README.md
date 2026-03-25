@@ -27,7 +27,7 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | Feature | Description |
 |---|---|
 | **Multi-account management** | Store unlimited accounts with encrypted cookies |
-| **One-click launch** | Launch any account into any game by Place ID |
+| **Account launcher** | Launch any account into any game by Place ID |
 | **Game search** | Search for games by name directly from the launch dialog |
 | **Join player** | Join someone's server by their Roblox username if they have joins enabled |
 | **Multi-Roblox** | Run multiple Roblox instances simultaneously |
