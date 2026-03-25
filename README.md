@@ -27,7 +27,7 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | Feature | Description |
 |---|---|
 | **Multi-account management** | Store unlimited accounts with encrypted cookies |
-| **Account launcher** | Launch any account into any game by Place ID |
+| **Account Launcher** | Launch any account into any game by Place ID |
 | **Game search** | Search for games by name directly from the launch dialog |
 | **Join player** | Join someone's server by their Roblox username if they have joins enabled |
 | **Multi-Roblox** | Run multiple Roblox instances simultaneously |
@@ -35,7 +35,7 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | **Anti-AFK** | Automatically sends input to all running Roblox windows every 2 minutes, no admin required |
 | **Robux balance** | Optionally display each account's Robux balance |
 | **Sections** | Organise accounts into custom groups |
-| **Rogue Lineage section** | Automatically created on first launch — accounts inside get an extra edit panel to track owned artifacts, shown as coloured dots and badges on the card |
+| **Rogue Lineage section** | Automatically created on first launch, accounts inside get an extra edit panel to track owned artifacts, shown as coloured dots and badges on the card |
 | **Accent colours** | Customise the UI colour with presets or a custom hex code |
 | **Pinning** | Pin frequently used accounts to the top |
 
@@ -85,7 +85,7 @@ The Rogue Lineage section is created automatically when you first open the app. 
 4. Save — it runs in the background automatically
 
 ### Multi-Roblox
-Enable in Settings. Works by holding the Roblox singleton mutex so multiple instances can run at once. Roblox may patch this at any time — use at your own risk.
+Enable in Settings. Works by holding the Roblox singleton mutex so multiple instances can run at once. Roblox may patch this at any time use at your own risk.
 
 ---
 
