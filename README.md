@@ -28,7 +28,7 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | **Join player** | Join someone's server by their Roblox username if they have joins enabled |
 | **Multi-Roblox** | Run multiple Roblox instances simultaneously |
 | **FPS cap** | Set a custom FPS cap per-session |
-| **Anti-AFK** | Automatically sends input to all running Roblox windows every 2 minutes, no admin required |
+| **Anti-AFK** | Automatically sends input to all running Roblox windows every 15 minutes. |
 | **Robux balance** | Optionally display each account's Robux balance |
 | **Custom cards** | Add coloured label cards to any account to track whatever you want |
 | **Sections** | Organise accounts into custom groups |
@@ -80,9 +80,12 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 3. Click the card on the account to toggle it on or off
 
 ### Importing from Roblox Account Manager
-1. Open the original Roblox Account Manager and export your accounts to `AccountData.json`
-2. Click the **Import** button in the top bar
-3. Select the file, sections are created automatically from groups
+1. Open the original Roblox Account Manager folder and grab your AccountData.json
+2. Download RAMDecrypt and decrypt your AccountData
+3. Click the **Import** button in the top bar
+4. Select your AccountData.json file, sections are created automatically from groups
+
+[Video Tutorial](https://www.youtube.com/watch?v=YGkR_dXtCw4&feature=youtu.be)
 
 ### Rogue Lineage section
 The Rogue Lineage section is created automatically when you first open the app. Accounts added to it get an extra edit panel (✏) where you can set a character note and toggle which artifacts the account owns. These show up as coloured dots and labelled badges directly on the account card.
