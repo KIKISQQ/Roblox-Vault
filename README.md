@@ -127,6 +127,34 @@ Cookies are encrypted at rest using Windows DPAPI before being saved to disk, me
 
 ---
 
+## FAQ
+
+**Why can't I launch multiple accounts?**
+Multi-Roblox is disabled by default. A Roblox staff member stated that Hyperion blocks attempts to run multiple instances and that circumventing this block is considered malicious behavior. You can still enable it in Settings, but it is a use-at-your-own-risk feature and may result in consequences I cannot predict or be responsible for.
+
+**My antivirus flagged this as a virus. Is it safe?**
+The full source code is publicly available, feel free to read through it yourself before running anything. False positives are common with apps that interact with other processes or download files at runtime, both of which this app does for legitimate reasons.
+
+**I found a bug or something isn't working.**
+You can contact me on Discord: **imlowkeykiki** (ID: `1192601725748646040`). Screenshots and a clear description of what happened help a lot.
+
+**Can I get banned for using this?**
+There is no official statement from Roblox that using account managers is bannable, and the core features do not modify the game client in any way. That said, some games disallow alt accounts in their own rules, so check the rules of any game you play.
+
+**The app says my cookie is invalid but I copied it correctly.**
+Make sure you copied the full cookie value including the `_|WARNING` prefix. Some browsers truncate it when you select it, try right clicking the cookie in DevTools and copying the value directly.
+
+**The app downloaded Chromium on first launch, is that normal?**
+Yes. The Open in Browser feature requires a lightweight browser engine (~150MB). It only downloads once and is stored in your AppData folder.
+
+**Can I use this on multiple PCs?**
+The exe itself works anywhere, but your saved cookies are encrypted with Windows DPAPI and tied to your user account. They cannot be transferred to another machine, you would need to re-add your accounts. (This may change once proper Export/Import support is added.)
+
+**My accounts keep getting logged out.**
+Roblox invalidates cookies when you log out from the website or change your password. Re-add the account with a fresh cookie.
+
+---
+
 ## Acknowledgements
 
 RobloxVault was heavily inspired by [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager) by ic3w0lf22. A lot of the core concepts, launch methods, and approaches used in this project were referenced from it. Go check it out if you haven't.
