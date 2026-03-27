@@ -23,16 +23,19 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | Feature | Description |
 |---|---|
 | **Multi-account management** | Store unlimited accounts with encrypted cookies |
-| **One-click launch** | Launch any account into any game by Place ID |
+| **One click launch** | Launch any account into any game by Place ID |
+| **Multi-launch** | Select multiple accounts and launch them all at once with a configurable delay |
 | **Game search** | Search for games by name directly from the launch dialog |
 | **Join player** | Join someone's server by their Roblox username if they have joins enabled |
+| **Open in browser** | Open any account in browser |
 | **Multi-Roblox** | Run multiple Roblox instances simultaneously |
 | **FPS cap** | Set a custom FPS cap per-session |
-| **Anti-AFK** | Automatically sends input to all running Roblox windows every 15 minutes. |
+| **Anti-AFK** | Automatically sends input to all running Roblox windows every 15 minutes |
 | **Robux balance** | Optionally display each account's Robux balance |
 | **Custom cards** | Add coloured label cards to any account to track whatever you want |
 | **Sections** | Organise accounts into custom groups |
 | **Rogue Lineage section** | Automatically created on first launch. Accounts inside get an extra edit panel to track owned artifacts, shown as coloured dots and badges on the card |
+| **Server info window** | A live window showing your current server's player count, region, and age. Configurable refresh rate down to 2 seconds |
 | **Import from Account Manager** | Import accounts directly from the original Roblox Account Manager, sections are created automatically from groups |
 | **Discord webhook** | Send a webhook notification when an account disconnects from Roblox |
 | **Accent colours** | Customise the UI colour with presets or a custom hex code |
@@ -69,6 +72,11 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 2. Enter a Place ID or search for a game by name
 3. Click **Launch**
 
+### Launching multiple accounts
+1. Click on any account cards to select them
+2. Click **Launch (x)** in the top bar
+3. Enter a Place ID or search for a game, each account will launch with the configured delay between them
+
 ### Joining a player
 1. Click **▶ Launch** on the account you want to use
 2. Type the target player's Roblox username in the **Join Player** field
@@ -78,6 +86,12 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 1. Click **✏ Edit** on any account card
 2. Click **Add Card** and give it a name and colour
 3. Click the card on the account to toggle it on or off
+
+### Server info window
+1. Open **Settings** and go to the **Server** tab
+2. Enable **Show Server Info Window**
+3. Save, the window will open and update live as your account moves between servers
+4. Adjust the refresh interval in settings, minimum is 2000ms (2 seconds)
 
 ### Importing from Roblox Account Manager
 1. Open the original Roblox Account Manager folder and grab your AccountData.json
@@ -97,7 +111,7 @@ The Rogue Lineage section is created automatically when you first open the app. 
 4. Save, it runs in the background automatically
 
 ### Discord webhook
-1. Open **Settings**
+1. Open **Settings** and go to the **Discord** tab
 2. Enable **Discord Webhook** and paste your webhook URL
 3. Optionally enable **@everyone** pings or customise the message
 4. Save, a notification will be sent whenever an account disconnects from Roblox
