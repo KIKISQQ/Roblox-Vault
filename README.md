@@ -1,7 +1,6 @@
 # RobloxVault
 
-> Release v1
-
+![Release](https://img.shields.io/badge/release-v1.0-orange)
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![Framework](https://img.shields.io/badge/.NET-8.0-purple)
 ![License](https://img.shields.io/badge/license-GPL--3.0-green)
@@ -15,9 +14,6 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | Main Window | Launch Dialog |
 |:-----------:|:-------------:|
 | ![Main Window](RobloxVaultScreenshots/MainWindow.png) | ![Launch Dialog](RobloxVaultScreenshots/LaunchAccount.png) |
-
-| Settings | Settings (cont.) |
-|:--------:|:----------------:|
 | ![Settings](RobloxVaultScreenshots/Settings.png) | ![Settings2](RobloxVaultScreenshots/Settings2.png) |
 
 ---
@@ -27,15 +23,18 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 | Feature | Description |
 |---|---|
 | **Multi-account management** | Store unlimited accounts with encrypted cookies |
-| **Account Launcher** | Launch any account into any game by Place ID |
+| **One-click launch** | Launch any account into any game by Place ID |
 | **Game search** | Search for games by name directly from the launch dialog |
 | **Join player** | Join someone's server by their Roblox username if they have joins enabled |
 | **Multi-Roblox** | Run multiple Roblox instances simultaneously |
 | **FPS cap** | Set a custom FPS cap per-session |
 | **Anti-AFK** | Automatically sends input to all running Roblox windows every 2 minutes, no admin required |
 | **Robux balance** | Optionally display each account's Robux balance |
+| **Custom cards** | Add coloured label cards to any account to track whatever you want |
 | **Sections** | Organise accounts into custom groups |
-| **Rogue Lineage section** | Automatically created on first launch, accounts inside get an extra edit panel to track owned artifacts, shown as coloured dots and badges on the card |
+| **Rogue Lineage section** | Automatically created on first launch. Accounts inside get an extra edit panel to track owned artifacts, shown as coloured dots and badges on the card |
+| **Import from Account Manager** | Import accounts directly from the original Roblox Account Manager, sections are created automatically from groups |
+| **Discord webhook** | Send a webhook notification when an account disconnects from Roblox |
 | **Accent colours** | Customise the UI colour with presets or a custom hex code |
 | **Pinning** | Pin frequently used accounts to the top |
 
@@ -63,7 +62,7 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 1. Click **Add Account**
 2. Paste your `.ROBLOSECURITY` cookie
 3. Optionally give the account a display name
-4. Click **Add** — the cookie is verified and saved with an encrypted cookie
+4. Click **Add**, the cookie is verified and saved encrypted
 
 ### Launching an account
 1. Click **▶ Launch** on any account card
@@ -75,6 +74,16 @@ A modern, cleaner alternative to the classic Roblox Account Manager. Store, laun
 2. Type the target player's Roblox username in the **Join Player** field
 3. Click **Join Player**
 
+### Custom cards
+1. Click **✏ Edit** on any account card
+2. Click **Add Card** and give it a name and colour
+3. Click the card on the account to toggle it on or off
+
+### Importing from Roblox Account Manager
+1. Open the original Roblox Account Manager and export your accounts to `AccountData.json`
+2. Click the **Import** button in the top bar
+3. Select the file, sections are created automatically from groups
+
 ### Rogue Lineage section
 The Rogue Lineage section is created automatically when you first open the app. Accounts added to it get an extra edit panel (✏) where you can set a character note and toggle which artifacts the account owns. These show up as coloured dots and labelled badges directly on the account card.
 
@@ -82,10 +91,16 @@ The Rogue Lineage section is created automatically when you first open the app. 
 1. Open **Settings**
 2. Enable **Anti-AFK**
 3. Optionally enable **Minimize after each anti-AFK input**
-4. Save — it runs in the background automatically
+4. Save, it runs in the background automatically
+
+### Discord webhook
+1. Open **Settings**
+2. Enable **Discord Webhook** and paste your webhook URL
+3. Optionally enable **@everyone** pings or customise the message
+4. Save, a notification will be sent whenever an account disconnects from Roblox
 
 ### Multi-Roblox
-Enable in Settings. Works by holding the Roblox singleton mutex so multiple instances can run at once. Roblox may patch this at any time use at your own risk.
+Enable in Settings. Works by holding the Roblox singleton mutex so multiple instances can run at once. Roblox may patch this at any time, use at your own risk.
 
 ---
 
@@ -97,7 +112,7 @@ Cookies are encrypted at rest using Windows DPAPI before being saved to disk, me
 
 ## Acknowledgements
 
-RobloxVault was heavily inspired by [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager) by ic3w0lf22 — a lot of the core concepts, launch methods, and approaches used in this project were referenced from it. Go check it out if you haven't.
+RobloxVault was heavily inspired by [Roblox Account Manager](https://github.com/ic3w0lf22/Roblox-Account-Manager) by ic3w0lf22. A lot of the core concepts, launch methods, and approaches used in this project were referenced from it. Go check it out if you haven't.
 
 ic3w0lf22/Roblox-Account-Manager is licensed under the GNU General Public License v3.0.
 
