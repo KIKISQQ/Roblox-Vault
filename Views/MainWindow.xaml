@@ -1,0 +1,929 @@
+<Window x:Class="RobloxVault.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:RobloxVault.Converters"
+        xmlns:models="clr-namespace:RobloxVault.Models"
+        Title="Account Manager" Height="700" Width="1060"
+        MinHeight="520" MinWidth="820"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolVis"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InvBoolVis"/>
+        <converters:NullToVisibilityConverter x:Key="NullVis"/>
+        <converters:NullToInverseVisibilityConverter x:Key="NullInvVis"/>
+        <converters:StringToColorBrushConverter x:Key="ColorBrush"/>
+        <converters:ColorToDimBrushConverter x:Key="ColorToDimBrush"/>
+        <converters:InitialsConverter x:Key="Initials"/>
+        <converters:BoolToSelectedBrushConverter x:Key="SelBrush"/>
+        <converters:HideTextConverter x:Key="HideText"/>
+
+        <Style x:Key="SidebarItemBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12,9"/>
+            <Setter Property="Margin" Value="0,0,0,2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Storyboard x:Key="SpinAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="SpinnerRotate"
+                             Storyboard.TargetProperty="Angle"
+                             From="0" To="360" Duration="0:0:0.9"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Border CornerRadius="14" Background="#0D0D0F"
+            BorderBrush="#1E1E28" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="56" Opacity="0.80" ShadowDepth="0"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="46"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="#0D0D0F"
+                    CornerRadius="14,14,0,0"
+                    BorderBrush="#1E1E28" BorderThickness="0,0,0,1"
+                    MouseDown="TitleBar_MouseDown">
+                <Grid Margin="14,0,10,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Viewbox Width="20" Height="20" Margin="0,0,10,0">
+                            <Grid Width="24" Height="24">
+                                <Ellipse Width="24" Height="24" Fill="{DynamicResource AccentBrush}"/>
+                                <TextBlock Text="RV" Foreground="White" FontSize="10"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+                        </Viewbox>
+                        <TextBlock Text="ACCOUNT MANAGER" Foreground="#C8C8D8"
+                                   FontSize="10.5" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="0,0,2,0">
+                        <Button Click="ClearDataButton_Click"
+                                Style="{StaticResource IconButton}"
+                                Margin="0,0,2,0"
+                                ToolTip="Clear all saved data">
+                            <TextBlock Text="🗑" Foreground="#555568" FontSize="11"/>
+                        </Button>
+                        <Button Click="MinimizeButton_Click"
+                                Style="{StaticResource IconButton}"
+                                Margin="0,0,2,0"
+                                ToolTip="Minimize">
+                            <Border Width="11" Height="1.5"
+                                    Background="#555568"
+                                    VerticalAlignment="Center"/>
+                        </Button>
+                        <Button Click="CloseButton_Click"
+                                Style="{StaticResource IconButton}"
+                                ToolTip="Close">
+                            <TextBlock Text="✕" Foreground="#555568" FontSize="11"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210" MinWidth="170" MaxWidth="300"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Background="#0C0C0F"
+                        BorderBrush="#1A1A24" BorderThickness="0,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ScrollViewer Grid.Row="0"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel Margin="10,16,10,8">
+
+                                <TextBlock Text="ACCOUNTS"
+                                           Foreground="#303044"
+                                           FontSize="9.5" FontWeight="Bold"
+                                           Margin="10,0,0,7"/>
+
+                                <Border x:Name="AllAccountsItem"
+                                        Style="{StaticResource SidebarItemBorder}"
+                                        Background="#161620"
+                                        MouseDown="AllAccounts_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0"
+                                                Width="6" Height="6"
+                                                Background="{DynamicResource AccentBrush}"
+                                                CornerRadius="3"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="All Accounts"
+                                                   Foreground="#DCDCEC"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"
+                                                   VerticalAlignment="Center"/>
+                                        <Border Grid.Column="2"
+                                                Background="#1E1830"
+                                                CornerRadius="9"
+                                                Padding="6,2"
+                                                VerticalAlignment="Center">
+                                            <TextBlock x:Name="AccountCountBadge"
+                                                       Text="0"
+                                                       Foreground="{DynamicResource AccentBrush}"
+                                                       FontSize="10.5"
+                                                       FontWeight="Bold"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+
+                                <Grid Margin="4,18,4,7">
+                                    <TextBlock Text="SECTIONS"
+                                               Foreground="#303044"
+                                               FontSize="9.5" FontWeight="Bold"
+                                               VerticalAlignment="Center"/>
+                                    <Button HorizontalAlignment="Right"
+                                            Style="{StaticResource IconButton}"
+                                            ToolTip="Add Section"
+                                            Click="AddSection_Click">
+                                        <TextBlock Text="+"
+                                                   Foreground="#55557A"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"/>
+                                    </Button>
+                                </Grid>
+
+                                <ItemsControl x:Name="SectionsList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type models:AccountSection}">
+                                            <Border CornerRadius="8"
+                                                    Padding="12,9"
+                                                    Margin="0,0,0,2"
+                                                    Background="{Binding IsSelected, Converter={StaticResource SelBrush}}"
+                                                    Cursor="Hand"
+                                                    MouseDown="SectionItem_Click"
+                                                    Tag="{Binding}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                VerticalAlignment="Center">
+                                                        <Border Width="6" Height="6"
+                                                                CornerRadius="3"
+                                                                Margin="0,0,10,0"
+                                                                VerticalAlignment="Center"
+                                                                Background="#44446A"/>
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   Foreground="#AAAABF"
+                                                                   FontSize="13"
+                                                                   FontWeight="Medium"
+                                                                   VerticalAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis"/>
+                                                    </StackPanel>
+                                                    <Button Grid.Column="1"
+                                                            Style="{StaticResource IconButton}"
+                                                            Tag="{Binding}"
+                                                            Click="SectionOptions_Click"
+                                                            Padding="4,2">
+                                                        <TextBlock Text="···"
+                                                                   Foreground="#44446A"
+                                                                   FontSize="13"/>
+                                                    </Button>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Border Grid.Row="1"
+                                Height="32"
+                                Padding="18,0"
+                                BorderBrush="#161620"
+                                BorderThickness="0,1,0,0">
+                            <TextBlock Text="v1.0.0"
+                                       Foreground="#222234"
+                                       FontSize="10.5"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <GridSplitter Grid.Column="1"
+                              Width="1"
+                              HorizontalAlignment="Stretch"
+                              Background="#1A1A24"
+                              Cursor="SizeWE"
+                              ResizeDirection="Columns"/>
+
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="62"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="32"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            BorderBrush="#1A1A24"
+                            BorderThickness="0,0,0,1"
+                            Background="#0E0E12"
+                            Padding="18,0,18,0">
+                        <Grid>
+                            <Border Background="#101016"
+                                    CornerRadius="8"
+                                    BorderBrush="#222230"
+                                    BorderThickness="1"
+                                    MaxWidth="320"
+                                    HorizontalAlignment="Left"
+                                    Height="36"
+                                    VerticalAlignment="Center">
+                                <Grid>
+                                    <TextBlock Text="⌕"
+                                               Foreground="#3A3A54"
+                                               FontSize="16"
+                                               Margin="11,0,0,0"
+                                               VerticalAlignment="Center"/>
+                                    <TextBox x:Name="SearchBox"
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             Foreground="#DCDCEC"
+                                             FontSize="13"
+                                             Margin="34,0,10,0"
+                                             VerticalAlignment="Center"
+                                             CaretBrush="{DynamicResource AccentBrush}"
+                                             TextChanged="SearchBox_TextChanged">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="TextBox">
+                                                            <Grid>
+                                                                <TextBlock Text="Search accounts..."
+                                                                           Foreground="#2A2A42"
+                                                                           FontSize="13"
+                                                                           VerticalAlignment="Center"
+                                                                           IsHitTestVisible="False">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </TextBox.Style>
+                                    </TextBox>
+                                </Grid>
+                            </Border>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                            <Button x:Name="LaunchSelectedButton"
+                                    Style="{StaticResource AccentButton}"
+                                    Margin="0,0,8,0"
+                                    Visibility="Collapsed"
+                                    Click="LaunchSelectedButton_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="▶"
+                                            FontSize="9" FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,6,0"/>
+                                    <TextBlock x:Name="LaunchSelectedCount"
+                                            Text="Launch Selected"
+                                            FontSize="13"
+                                            VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource GhostButton}"
+                                    Margin="0,0,4,0"
+                                    ToolTip="Import from Roblox Account Manager"
+                                    Click="ImportAccountManagerButton_Click">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="M12 2L12 14M6 8L12 2L18 8M4 18L20 18"
+                                              Stroke="#888899" StrokeThickness="2"
+                                              StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round" Fill="Transparent"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource GhostButton}"
+                                        Margin="0,0,4,0"
+                                        ToolTip="Settings"
+                                        Click="SettingsButton_Click">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="M12 8.5A3.5 3.5 0 1 0 12 15.5A3.5 3.5 0 0 0 12 8.5Z M12 2V4M12 20V22M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M2 12H4M20 12H22M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22"
+                                              Stroke="#888899" StrokeThickness="2"
+                                              StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              Fill="Transparent"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource GhostButton}"
+                                        Margin="0,0,12,0"
+                                        ToolTip="Refresh all presences"
+                                        Click="RefreshAllButton_Click">
+                                    <Viewbox Width="14" Height="14">
+                                        <Path Data="M23 4V10H17M1 20V14H7M3.51 9A9 9 0 0 1 20.49 9M20.49 15A9 9 0 0 1 3.51 15"
+                                              Stroke="#888899" StrokeThickness="2"
+                                              StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                              StrokeLineJoin="Round" Fill="Transparent"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button Style="{StaticResource AccentButton}"
+                                        Click="AddAccountButton_Click">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="+"
+                                                   FontSize="16" FontWeight="Bold"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,2"/>
+                                        <TextBlock Text="Add Account"
+                                                   FontSize="13"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1"
+                                  Padding="18,18,18,18"
+                                  VerticalScrollBarVisibility="Auto">
+                        <Grid>
+
+                            <StackPanel x:Name="EmptyState"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="0,80,0,0">
+                                <TextBlock Text="🎮"
+                                           FontSize="44"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,14"/>
+                                <TextBlock Text="No accounts yet"
+                                           Foreground="#DCDCEC"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,7"/>
+                                <TextBlock Text="Click  + Add Account  to get started."
+                                           Foreground="#36364E"
+                                           FontSize="13"
+                                           HorizontalAlignment="Center"/>
+                            </StackPanel>
+
+                            <ItemsControl x:Name="AccountsPanel">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="240"
+                                            MinHeight="180"
+                                            Margin="0,0,12,12"
+                                            CornerRadius="12"
+                                            BorderThickness="1"
+                                            Tag="{Binding}"
+                                            Cursor="Hand"
+                                            MouseDown="AccountCard_Click">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#13131A"/>
+                                                <Setter Property="BorderBrush" Value="#1E1E2C"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#181822"/>
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                                                        <Setter Property="Background" Value="#1A1428"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+
+                                            <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="1"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0" Margin="14,14,14,11">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="0"
+                                                          Width="48" Height="48"
+                                                          Margin="0,0,12,0">
+                                                        <Border Background="#1C1C2C"
+                                                                CornerRadius="24"
+                                                                Visibility="{Binding AvatarUrl, Converter={StaticResource NullInvVis}}">
+                                                            <TextBlock Text="{Binding DisplayName, Converter={StaticResource Initials}}"
+                                                                       Foreground="{DynamicResource AccentBrush}"
+                                                                       FontSize="17"
+                                                                       FontWeight="Bold"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <Border CornerRadius="24"
+                                                                ClipToBounds="True"
+                                                                Visibility="{Binding AvatarUrl, Converter={StaticResource NullVis}}">
+                                                            <Image Source="{Binding AvatarUrl}"
+                                                                   Stretch="UniformToFill"/>
+                                                        </Border>
+                                                        <Border Width="11" Height="11"
+                                                                CornerRadius="6"
+                                                                Background="{Binding PresenceColor, Converter={StaticResource ColorBrush}}"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                BorderBrush="#13131A"
+                                                                BorderThickness="2"/>
+                                                    </Grid>
+
+                                                    <!-- Display name / username / status / robux -->
+                                                    <StackPanel Grid.Column="1"
+                                                                VerticalAlignment="Center">
+                                                        <!-- Display name -->
+                                                        <TextBlock Foreground="#E0E0EE"
+                                                                   FontSize="13.5"
+                                                                   FontWeight="SemiBold"
+                                                                   TextTrimming="CharacterEllipsis">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding Converter="{StaticResource HideText}">
+                                                                    <Binding Path="DisplayName"/>
+                                                                    <Binding Path="DataContext.Settings.HideAccountNames"
+                                                                             RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <!-- Username -->
+                                                        <TextBlock Foreground="#555570"
+                                                                   FontSize="11"
+                                                                   Margin="0,2,0,5"
+                                                                   TextTrimming="CharacterEllipsis">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding Converter="{StaticResource HideText}">
+                                                                    <Binding Path="Username"/>
+                                                                    <Binding Path="DataContext.Settings.HideAccountNames"
+                                                                             RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <Border Background="#16161F"
+                                                                CornerRadius="5"
+                                                                Padding="6,3"
+                                                                HorizontalAlignment="Left">
+                                                            <TextBlock Text="{Binding PresenceStatus}"
+                                                                       Foreground="{Binding PresenceColor, Converter={StaticResource ColorBrush}}"
+                                                                       FontSize="10"
+                                                                       FontWeight="Medium"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding RobuxDisplay}"
+                                                                   Foreground="#3DBA6F"
+                                                                   FontSize="10"
+                                                                   Margin="0,4,0,0"
+                                                                   Visibility="{Binding DataContext.Settings.DisplayRobux,
+                                                                                RelativeSource={RelativeSource AncestorType=Window},
+                                                                                Converter={StaticResource BoolVis}}"/>
+                                                    </StackPanel>
+
+                                                    <Button Grid.Column="2"
+                                                            Style="{StaticResource IconButton}"
+                                                            VerticalAlignment="Top"
+                                                            ToolTip="Pin account"
+                                                            DataContext="{Binding}"
+                                                            Click="PinButton_Click">
+                                                        <TextBlock Text="{Binding PinIcon}"
+                                                                FontSize="12"
+                                                                Foreground="#44446A"/>
+                                                    </Button>
+                                                    </Grid>
+                                                <Border Grid.Row="1"
+                                                        Margin="14,0,14,9"
+                                                        Visibility="{Binding HasDescription, Converter={StaticResource BoolVis}}">
+                                                    <TextBlock Text="{Binding Description}"
+                                                               Foreground="#484860"
+                                                               FontSize="11"
+                                                               TextWrapping="Wrap"/>
+                                                </Border>
+
+                                                
+
+                                                <Border Grid.Row="2" Margin="14,0,14,10">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding HasCustomCards}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding DataContext.IsRLSectionActive,
+                                                                            RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <ItemsControl ItemsSource="{Binding CustomCards}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border CornerRadius="5" Margin="0,0,4,4"
+                                                                        Cursor="Hand"
+                                                                        MouseDown="CustomCard_Click"
+                                                                        MouseRightButtonDown="CustomCard_RightClick"
+                                                                        Loaded="CustomCard_Loaded"
+                                                                        Tag="{Binding}"
+                                                                        BorderThickness="1">
+                                                                    <TextBlock Padding="8,3"
+                                                                            Text="{Binding Name}"
+                                                                            FontSize="10" FontWeight="Bold"/>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </Border>
+
+                                                
+                                                <Border Grid.Row="2"
+                                                        Margin="14,0,14,10"
+                                                        Visibility="{Binding DataContext.IsRLSectionActive,
+                                                                     RelativeSource={RelativeSource AncestorType=Window},
+                                                                     Converter={StaticResource BoolVis}}">
+                                                    <StackPanel>
+
+                                                        <TextBlock Text="{Binding RLDescription}"
+                                                                   Foreground="#6A5A8A"
+                                                                   FontSize="11"
+                                                                   TextWrapping="Wrap"
+                                                                   Margin="0,0,0,5"
+                                                                   Visibility="{Binding HasRLDescription, Converter={StaticResource BoolVis}}"/>
+
+                                                        <WrapPanel Orientation="Horizontal">
+
+                                                            <Border CornerRadius="5"
+                                                                    Margin="0,0,4,4"
+                                                                    Cursor="Hand"
+                                                                    Tag="MA"
+                                                                    MouseDown="RLTag_Click"
+                                                                    ToolTip="Mysterious Artifact"
+                                                                    Visibility="{Binding IsMA_Visible, Converter={StaticResource BoolVis}}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#131820"/>
+                                                                        <Setter Property="BorderBrush" Value="#3DBA6F"/>
+                                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsMA_Active}" Value="True">
+                                                                                <Setter Property="Background" Value="#3DBA6F"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Padding="7,3" Text="MA"
+                                                                           FontSize="10" FontWeight="Bold">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#3DBA6F"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsMA_Active}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+
+                                                            <Border CornerRadius="5"
+                                                                    Margin="0,0,4,4"
+                                                                    Cursor="Hand"
+                                                                    Tag="PD"
+                                                                    MouseDown="RLTag_Click"
+                                                                    ToolTip="Phoenix Down"
+                                                                    Visibility="{Binding IsPD_Visible, Converter={StaticResource BoolVis}}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#1A1310"/>
+                                                                        <Setter Property="BorderBrush" Value="#FF6B35"/>
+                                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsPD_Active}" Value="True">
+                                                                                <Setter Property="Background" Value="#FF6B35"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Padding="7,3" Text="PD"
+                                                                           FontSize="10" FontWeight="Bold">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#FF6B35"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsPD_Active}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+
+                                                            <Border CornerRadius="5"
+                                                                    Margin="0,0,4,4"
+                                                                    Cursor="Hand"
+                                                                    Tag="WKA"
+                                                                    MouseDown="RLTag_Click"
+                                                                    ToolTip="White King Amulet"
+                                                                    Visibility="{Binding IsWKA_Visible, Converter={StaticResource BoolVis}}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#18181E"/>
+                                                                        <Setter Property="BorderBrush" Value="#D0D0D8"/>
+                                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsWKA_Active}" Value="True">
+                                                                                <Setter Property="Background" Value="#EEEEEE"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Padding="7,3" Text="WKA"
+                                                                           FontSize="10" FontWeight="Bold">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#B0B0BC"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsWKA_Active}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#111111"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+
+                                                            <Border CornerRadius="5"
+                                                                    Margin="0,0,4,4"
+                                                                    Cursor="Hand"
+                                                                    Tag="Lannis"
+                                                                    MouseDown="RLTag_Click"
+                                                                    ToolTip="Lannis Amulet"
+                                                                    Visibility="{Binding IsLannis_Visible, Converter={StaticResource BoolVis}}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#160F1C"/>
+                                                                        <Setter Property="BorderBrush" Value="#9B59B6"/>
+                                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsLannis_Active}" Value="True">
+                                                                                <Setter Property="Background" Value="#9B59B6"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Padding="7,3" Text="LA"
+                                                                           FontSize="10" FontWeight="Bold">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#9B59B6"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsLannis_Active}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+
+                                                            <Border Width="1"
+                                                                    Background="#242434"
+                                                                    Margin="0,3,6,3"/>
+
+                                                            <Border CornerRadius="5"
+                                                                    Margin="0,0,0,4"
+                                                                    Cursor="Hand"
+                                                                    Tag="Silver"
+                                                                    MouseDown="RLTag_Click"
+                                                                    ToolTip="Silver">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="#14141C"/>
+                                                                        <Setter Property="BorderBrush" Value="#686878"/>
+                                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsSilver_Active}" Value="True">
+                                                                                <Setter Property="Background" Value="#52526A"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Padding="7,3" Text="Silver"
+                                                                           FontSize="10" FontWeight="Bold">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#686878"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding IsSilver_Active}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="#D4D4E0"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </Border>
+
+                                                        </WrapPanel>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <Border Grid.Row="3"
+                                                        Background="#1A1A26"
+                                                        Height="1"/>
+
+                                                <Grid Grid.Row="4" Margin="9,9,9,9">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Button Grid.Column="0"
+                                                            Style="{StaticResource AccentButton}"
+                                                            Padding="0,7"
+                                                            FontSize="12"
+                                                            DataContext="{Binding}"
+                                                            Click="LaunchButton_Click">
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    VerticalAlignment="Center">
+                                                            <TextBlock Text="▶"
+                                                                       FontSize="9"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="0,0,5,0"/>
+                                                            <TextBlock Text="Launch"
+                                                                       VerticalAlignment="Center"/>
+                                                        </StackPanel>
+                                                    </Button>
+
+                                                    <Button Grid.Column="1"
+                                                            Style="{StaticResource IconButton}"
+                                                            Margin="4,0,0,0"
+                                                            ToolTip="Edit account"
+                                                            DataContext="{Binding}"
+                                                            Click="EditButton_Click">
+                                                        <TextBlock Text="✏" FontSize="12" Foreground="#55557A"/>
+                                                    </Button>
+
+                                                    <!-- Copy Cookie -->
+                                                    <Button Grid.Column="2"
+                                                            Style="{StaticResource IconButton}"
+                                                            ToolTip="Copy Cookie"
+                                                            DataContext="{Binding}"
+                                                            Click="CopyCookieButton_Click">
+                                                        <TextBlock Text="⎘" FontSize="14" Foreground="#55557A"/>
+                                                    </Button>
+
+                                                    <Button Grid.Column="3"
+                                                            Style="{StaticResource IconButton}"
+                                                            ToolTip="Copy Username"
+                                                            DataContext="{Binding}"
+                                                            Click="CopyUsernameButton_Click">
+                                                        <TextBlock Text="👤" FontSize="11"/>
+                                                    </Button>
+
+                                                    <Button Grid.Column="4"
+                                                            Style="{StaticResource IconButton}"
+                                                            ToolTip="Refresh presence"
+                                                            DataContext="{Binding}"
+                                                            Click="RefreshButton_Click">
+                                                        <TextBlock Text="↻" FontSize="14" Foreground="#55557A"/>
+                                                    </Button>
+
+                                                    <Button Grid.Column="5"
+                                                            Style="{StaticResource IconButton}"
+                                                            ToolTip="Remove account"
+                                                            DataContext="{Binding}"
+                                                            Click="DeleteButton_Click">
+                                                        <TextBlock Text="🗑" FontSize="11"/>
+                                                    </Button>
+                                                </Grid>
+
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Grid>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="1"
+                            x:Name="LoadingOverlay"
+                            Background="#88000008"
+                            Visibility="Collapsed">
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Grid Width="36" Height="36"
+                                  HorizontalAlignment="Center"
+                                  Margin="0,0,0,12">
+                                <Ellipse Width="36" Height="36"
+                                         Stroke="#1E1E2C"
+                                         StrokeThickness="3"
+                                         Fill="Transparent"/>
+                                <Path Stroke="{DynamicResource AccentBrush}"
+                                      StrokeThickness="3"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      Data="M 18,2 A 16,16 0 0 1 34,18"
+                                      RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <RotateTransform x:Name="SpinnerRotate" Angle="0"/>
+                                    </Path.RenderTransform>
+                                    <Path.Triggers>
+                                        <EventTrigger RoutedEvent="Path.Loaded">
+                                            <BeginStoryboard Storyboard="{StaticResource SpinAnimation}"/>
+                                        </EventTrigger>
+                                    </Path.Triggers>
+                                </Path>
+                            </Grid>
+                            <TextBlock x:Name="LoadingText"
+                                       Text="Loading..."
+                                       Foreground="#CCCCDE"
+                                       FontSize="13"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="2"
+                            Background="#09090C"
+                            BorderBrush="#161620"
+                            BorderThickness="0,1,0,0"
+                            CornerRadius="0,0,14,14">
+                        <Grid Margin="18,0">
+                            <TextBlock x:Name="StatusBar"
+                                       Foreground="#2C2C42"
+                                       FontSize="10.5"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding AntiAfkCountdown}"
+                                       Foreground="#2C2C42"
+                                       FontSize="10.5"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

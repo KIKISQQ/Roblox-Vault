@@ -1,0 +1,379 @@
+<Window x:Class="RobloxVault.Views.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="580" Width="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseDown="Window_MouseDown">
+
+    <Border Background="#0D0D0F" CornerRadius="12"
+            BorderBrush="#1E1E28" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="48" Opacity="0.75" ShadowDepth="0"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="64"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderBrush="#1E1E28" BorderThickness="0,0,0,1">
+                <Grid Margin="20,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="8" Height="8" Background="{DynamicResource AccentBrush}"
+                                CornerRadius="4" Margin="0,0,10,0" x:Name="HeaderAccentDot"/>
+                        <TextBlock Text="Settings"
+                                   Foreground="#E0E0EE" FontSize="14" FontWeight="SemiBold"/>
+                    </StackPanel>
+                    <Button Content="✕" HorizontalAlignment="Right"
+                            Style="{StaticResource IconButton}"
+                            Foreground="#55557A" FontSize="13"
+                            Click="CloseButton_Click"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" BorderBrush="#1E1E28" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" Margin="16,0,0,0">
+                    <StackPanel Margin="0,0,24,0">
+                        <Button x:Name="GeneralTabButton"
+                                Style="{StaticResource IconButton}"
+                                Tag="active"
+                                Click="GeneralTab_Click"
+                                Padding="0,8">
+                                <TextBlock x:Name="GeneralTabText" Text="General"
+                                       Foreground="{DynamicResource AccentBrush}"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                        </Button>
+                        <Border x:Name="GeneralTabUnderline"
+                                Height="2" CornerRadius="1"
+                                Background="{DynamicResource AccentBrush}"
+                                Margin="0,0,0,0"
+                                Visibility="Visible"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,24,0">
+                        <Button x:Name="DiscordTabButton"
+                                Style="{StaticResource IconButton}"
+                                Tag="inactive"
+                                Click="DiscordTab_Click"
+                                Padding="0,8">
+                                <TextBlock x:Name="DiscordTabText" Text="Discord"
+                                       Foreground="#484860"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                        </Button>
+                        <Border x:Name="DiscordTabUnderline"
+                                Height="2" CornerRadius="1"
+                                Background="{DynamicResource AccentBrush}"
+                                Visibility="Collapsed"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="ServerTabButton"
+                                Style="{StaticResource IconButton}"
+                                Tag="inactive"
+                                Click="ServerTab_Click"
+                                Padding="0,8">
+                                <TextBlock x:Name="ServerTabText" Text="Server"
+                                       Foreground="#484860"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                        </Button>
+                        <Border x:Name="ServerTabUnderline"
+                                Height="2" CornerRadius="1"
+                                Background="{DynamicResource AccentBrush}"
+                                Visibility="Collapsed"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <StackPanel x:Name="GeneralPanel" Margin="24,20,24,24" Visibility="Visible">
+
+                        <TextBlock Text="APPEARANCE" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                <TextBlock Text="Accent Color" Foreground="#E0E0EE" FontSize="13"/>
+                                <TextBlock Text="Used for buttons, highlights and indicators."
+                                           Foreground="#484860" FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" x:Name="AccentPreviewBorder"
+                                    Width="32" Height="32" CornerRadius="8"
+                                    Background="#FF6B35" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <WrapPanel Margin="0,8,0,20" x:Name="SwatchPanel">
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#FF6B35" Cursor="Hand" MouseDown="Swatch_Click" Tag="#FF6B35">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#E8433A" Cursor="Hand" MouseDown="Swatch_Click" Tag="#E8433A">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#E8407A" Cursor="Hand" MouseDown="Swatch_Click" Tag="#E8407A">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#8B5CF6" Cursor="Hand" MouseDown="Swatch_Click" Tag="#8B5CF6">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#3B82F6" Cursor="Hand" MouseDown="Swatch_Click" Tag="#3B82F6">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#06B6D4" Cursor="Hand" MouseDown="Swatch_Click" Tag="#06B6D4">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#22C55E" Cursor="Hand" MouseDown="Swatch_Click" Tag="#22C55E">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#EAB308" Cursor="Hand" MouseDown="Swatch_Click" Tag="#EAB308">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                            <Border Width="32" Height="32" CornerRadius="8" Margin="0,0,8,8"
+                                    Background="#E8E8EE" Cursor="Hand" MouseDown="Swatch_Click" Tag="#E8E8EE">
+                                <Border CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="0"/>
+                            </Border>
+                        </WrapPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                            <TextBlock Text="Custom hex:" Foreground="#484860" FontSize="11"
+                                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <Border Background="#101016" CornerRadius="6"
+                                    BorderBrush="#222230" BorderThickness="1"
+                                    Width="100" Height="28">
+                                <TextBox x:Name="CustomHexBox"
+                                         Background="Transparent" BorderThickness="0"
+                                         Foreground="#DCDCEC" FontSize="12"
+                                         Margin="8,0,8,0" VerticalAlignment="Center"
+                                         CaretBrush="{DynamicResource AccentBrush}"
+                                         MaxLength="7"
+                                         TextChanged="CustomHexBox_TextChanged"/>
+                            </Border>
+                        </StackPanel>
+
+                        <Border Background="#1A1A26" Height="1" Margin="0,0,0,20"/>
+
+                        <!-- GENERAL -->
+                        <TextBlock Text="GENERAL" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <CheckBox x:Name="MultiRobloxCheckBox" Content="Enable Multi-Roblox"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Allows multiple Roblox player instances. May be blocked by Roblox, use at your own risk."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,12" TextWrapping="Wrap"/>
+
+                        <CheckBox x:Name="MultiRobloxWarningCheckBox" Content="Show multi-Roblox failure warning"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="If multi mode is enabled and Roblox process already runs, show an extra warning in status bar."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,16" TextWrapping="Wrap"/>
+
+                        <CheckBox x:Name="FpsCapCheckBox" Content="Enable FPS Cap"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <StackPanel Orientation="Horizontal" Margin="24,0,0,16" VerticalAlignment="Center">
+                            <TextBlock Text="Target FPS:" Foreground="#484860" FontSize="11"
+                                       VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <Border Background="#101016" CornerRadius="6"
+                                    BorderBrush="#222230" BorderThickness="1"
+                                    Width="60" Height="26">
+                                <TextBox x:Name="FpsCapTextBox" Text="60"
+                                         Background="Transparent" BorderThickness="0"
+                                         Foreground="#DCDCEC" FontSize="11"
+                                         Margin="6,0,6,0" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="Set to 5 for alt filling, 240 to play."
+                                       Foreground="#484860" FontSize="11"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Launch Delay (ms)" Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Border Background="#101016" CornerRadius="6"
+                                    BorderBrush="#222230" BorderThickness="1"
+                                    Width="80" Height="26">
+                                <TextBox x:Name="LaunchDelayTextBox" Text="5000"
+                                         Background="Transparent" BorderThickness="0"
+                                         Foreground="#DCDCEC" FontSize="11"
+                                         Margin="6,0,6,0" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                        <TextBlock Text="Delay in milliseconds between each account launch when launching multiple accounts."
+                                   Foreground="#484860" FontSize="11" Margin="0,0,0,16" TextWrapping="Wrap"/>
+
+                        <CheckBox x:Name="HideAccountNamesCheckBox" Content="Hide account names"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,8"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <CheckBox x:Name="HideLaunchInfoCheckBox" Content="Hide launch status info"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,8"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <CheckBox x:Name="DisplayRobuxCheckBox" Content="Display Robux balance"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Shows each account's Robux balance. Fetched on refresh."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,16" TextWrapping="Wrap"/>
+
+                        <Border Background="#1A1A26" Height="1" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="ANTI-AFK" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+                        <CheckBox x:Name="AntiAfkCheckBox" Content="Enable Anti-AFK"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Sends a spacebar input to all running Roblox windows every 15 minutes."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,12" TextWrapping="Wrap"/>
+                        <CheckBox x:Name="AntiAfkMinimizeCheckBox" Content="Minimize after each Anti-AFK input"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Minimizes each Roblox window after sending the input."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,16" TextWrapping="Wrap"/>
+
+                    </StackPanel>
+
+                    <StackPanel x:Name="DiscordPanel" Margin="24,20,24,24" Visibility="Collapsed">
+
+                        <TextBlock Text="WEBHOOK" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <CheckBox x:Name="DiscordWebhookEnabledCheckBox"
+                                  Content="Send message upon disconnect"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Posts a Discord webhook message when a Roblox instance disconnects."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,16" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Webhook URL" Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,6"/>
+                        <Border Background="#101016" CornerRadius="6"
+                                BorderBrush="#222230" BorderThickness="1"
+                                Height="34" Margin="0,0,0,16">
+                            <TextBox x:Name="DiscordWebhookUrlBox"
+                                     Background="Transparent" BorderThickness="0"
+                                     Foreground="#DCDCEC" FontSize="12"
+                                     Margin="10,0,10,0" VerticalAlignment="Center"
+                                     CaretBrush="{DynamicResource AccentBrush}"/>
+                        </Border>
+
+                        <CheckBox x:Name="DiscordEveryoneCheckBox"
+                                  Content="Include @everyone"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,16"
+                                  Style="{StaticResource DarkCheckBox}"/>
+
+                        <TextBlock Text="Custom Message" Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,6"/>
+                        <Border Background="#101016" CornerRadius="6"
+                                BorderBrush="#222230" BorderThickness="1"
+                                Margin="0,0,0,6">
+                            <TextBox x:Name="DiscordMessageBox"
+                                     Background="Transparent" BorderThickness="0"
+                                     Foreground="#DCDCEC" FontSize="12"
+                                     Margin="10,8,10,8"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     MinHeight="60"
+                                     CaretBrush="{DynamicResource AccentBrush}"/>
+                        </Border>
+                        <TextBlock Text="This message will be posted to the webhook when an account disconnects."
+                                   Foreground="#484860" FontSize="11" Margin="0,0,0,20" TextWrapping="Wrap"/>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Button Style="{StaticResource GhostButton}"
+                                    Padding="14,8"
+                                    Click="TestWebhook_Click">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="🔔" FontSize="11" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Test Webhook" FontSize="12" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock x:Name="WebhookStatusText"
+                                   Foreground="#484860"
+                                   FontSize="11"
+                                   Margin="0,0,0,0"/>
+
+                    </StackPanel>
+
+                    <StackPanel x:Name="ServerPanel" Margin="24,20,24,24" Visibility="Collapsed">
+
+                        <TextBlock Text="SERVER INFO" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <CheckBox x:Name="ShowServerInfoCheckBox"
+                                  Content="Show Server Info Window"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,4"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Opens a live server information window."
+                                   Foreground="#484860" FontSize="11" Margin="24,0,0,20" TextWrapping="Wrap"/>
+
+                        <Border Background="#1A1A26" Height="1" Margin="0,0,0,20"/>
+
+                        <TextBlock Text="DISPLAY OPTIONS" Foreground="#303044"
+                                   FontSize="9.5" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                        <CheckBox x:Name="ShowPlayerCountCheckBox"
+                                  Content="Show Player Count (x/max)"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,8"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <CheckBox x:Name="ShowServerRegionCheckBox"
+                                  Content="Show Server Region / Ping"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,8"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <CheckBox x:Name="ShowServerAgeCheckBox"
+                                  Content="Show Server Age"
+                                  Foreground="#E0E0EE" FontSize="13" Margin="0,0,0,8"
+                                  Style="{StaticResource DarkCheckBox}"/>
+                        <TextBlock Text="Refresh Interval (ms)" Foreground="#E0E0EE" FontSize="13" Margin="0,8,0,4"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <Border Background="#101016" CornerRadius="6"
+                                        BorderBrush="#222230" BorderThickness="1"
+                                        Width="80" Height="26">
+                                    <TextBox x:Name="ServerRefreshBox"
+                                            Background="Transparent" BorderThickness="0"
+                                            Foreground="#DCDCEC" FontSize="11"
+                                            Margin="6,0,6,0" VerticalAlignment="Center"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Text="How often the server info window refreshes. Minimum 2000ms."
+                                    Foreground="#484860" FontSize="11" Margin="0,0,0,12" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
+
+            <Border Grid.Row="3" BorderBrush="#1E1E28" BorderThickness="0,1,0,0">
+                <Grid Margin="24,0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Button Style="{StaticResource GhostButton}" Padding="16,9"
+                                FocusVisualStyle="{x:Null}" Click="CancelButton_Click">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="✕" FontSize="10" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                                <TextBlock Text="Cancel" FontSize="13" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button x:Name="SaveButton" Style="{StaticResource AccentButton}"
+                                Padding="18,9" FocusVisualStyle="{x:Null}" Click="SaveButton_Click">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="💾" FontSize="10" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                                <TextBlock Text="Save" FontSize="13" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
